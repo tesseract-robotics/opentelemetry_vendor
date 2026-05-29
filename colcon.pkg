@@ -1,0 +1,5 @@
+{
+    "hooks": [
+        "share/opentelemetry_vendor/hook/pythonpath.dsv"
+    ]
+}
