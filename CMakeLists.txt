@@ -26,6 +26,8 @@ if(NOT opentelemetry-cpp_FOUND)
     opentelemetry-cpp
     GIT_REPOSITORY https://github.com/open-telemetry/opentelemetry-cpp.git
     GIT_TAG v${OPENTELEMETRY_CPP_VERSION}
+    # The tag is immutable for this vendor release, so repository history is not needed.
+    GIT_SHALLOW TRUE
     SOURCE_DIR ${CMAKE_BINARY_DIR}/opentelemetry-cpp-src
     BINARY_DIR ${CMAKE_BINARY_DIR}/opentelemetry-cpp-build
     CMAKE_CACHE_ARGS
