@@ -20,6 +20,7 @@ find_package(opentelemetry-cpp ${OPENTELEMETRY_CPP_VERSION_MAJORMINOR} QUIET CON
 if(NOT opentelemetry-cpp_FOUND)
   message(STATUS "opentelemetry-cpp not found. Building from source.")
 
+  find_package(Git REQUIRED)
   include(ExternalProject)
 
   ExternalProject_Add(
@@ -28,6 +29,12 @@ if(NOT opentelemetry-cpp_FOUND)
     GIT_TAG v${OPENTELEMETRY_CPP_VERSION}
     # The tag is immutable for this vendor release, so repository history is not needed.
     GIT_SHALLOW TRUE
+    # Clone no submodules automatically because ExternalProject does not make them shallow.
+    GIT_SUBMODULES ""
+    # OTLP gRPC only needs the protocol definitions.
+    PATCH_COMMAND
+      ${GIT_EXECUTABLE} -C <SOURCE_DIR> submodule update --init --depth 1
+        third_party/opentelemetry-proto
     SOURCE_DIR ${CMAKE_BINARY_DIR}/opentelemetry-cpp-src
     BINARY_DIR ${CMAKE_BINARY_DIR}/opentelemetry-cpp-build
     CMAKE_CACHE_ARGS
